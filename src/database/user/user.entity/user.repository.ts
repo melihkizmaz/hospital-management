@@ -10,7 +10,7 @@ export class UserRepository {
     private readonly userRepository: Model<UserDocument>,
   ) {}
 
-  async create(user: UserDocument) {
+  async create(user: User) {
     return await this.userRepository.create(user);
   }
 
