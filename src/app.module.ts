@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import configuration from './config/configuration';
+import { DatabaseModule } from './database/database.module';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import configuration from './config/configuration';
       inject: [ConfigService],
       useFactory: (config: ConfigService) => config.get('database', {}),
     }),
+    DatabaseModule,
   ],
   controllers: [],
   providers: [],
