@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import configuration from './config/configuration';
 import { DatabaseModule } from './database/database.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { PoliclinicModule } from './modules/policlinic/policlinic.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { AuthModule } from './modules/auth/auth.module';
     }),
     DatabaseModule,
     AuthModule,
+    PoliclinicModule,
   ],
   controllers: [],
   providers: [],
