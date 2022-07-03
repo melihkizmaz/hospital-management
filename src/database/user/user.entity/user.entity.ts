@@ -20,7 +20,7 @@ export class User {
 export type UserDocument = User & Document;
 export const UserSchema = SchemaFactory.createForClass(User);
 
-UserSchema.methods.validatePassword = function (
+UserSchema.methods.valiadatePassword = function (
   password: string,
 ): Promise<boolean> {
   return bcrypt.compare(password, this.password);
