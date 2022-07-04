@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { FilterQuery, Model } from 'mongoose';
-import { CreateAppointmentDto } from 'src/modules/appointment/dto/create-appointment.dto';
 import { Appointment, AppointmentDocument } from './appointment.entity';
+import { CreateInputDto } from './dto/create-input.dto';
 
 @Injectable()
 export class AppointmentRepository {
@@ -11,16 +11,15 @@ export class AppointmentRepository {
     private readonly appointmentRepository: Model<AppointmentDocument>,
   ) {}
 
-  async create(createAppointmentDto: CreateAppointmentDto) {
+  async create(createAppointmentDto: CreateInputDto) {
     return await this.appointmentRepository.create(createAppointmentDto);
   }
 
-  async findOne(query: FilterQuery<Appointment>) {
+  async findOne(query: FilterQuery<Appointment | null>) {
     const foundAppointment = await this.appointmentRepository
       .findOne(query)
       .exec();
-    if (!foundAppointment)
-      throw new NotFoundException('Appointment not found!');
+
     return foundAppointment;
   }
 
@@ -45,8 +44,10 @@ export class AppointmentRepository {
         new: true,
       })
       .exec();
+
     if (!updatedAppointment)
       throw new NotFoundException('Appointment not found!');
+
     return updatedAppointment;
   }
 

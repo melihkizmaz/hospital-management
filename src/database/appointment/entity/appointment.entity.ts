@@ -15,7 +15,7 @@ export class Appointment {
   policlinic: Types.ObjectId;
 
   @Prop({ required: true })
-  startDate: Types.ObjectId;
+  startDate: Date;
 }
 
 export type AppointmentDocument = Appointment & Document;

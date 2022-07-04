@@ -6,7 +6,7 @@ class PoliclicSchedule {
   @Prop({ type: Date, required: true })
   date: Date;
 
-  @Prop({ type: [Types.ObjectId], ref: 'Policlinic' })
+  @Prop({ type: Types.ObjectId, ref: 'Policlinic' })
   policlinic: Types.ObjectId;
 }
 
