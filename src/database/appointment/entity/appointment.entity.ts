@@ -14,6 +14,9 @@ export class Appointment {
   @Prop({ required: true })
   policlinic: Types.ObjectId;
 
+  @Prop({ required: true, default: false })
+  isCanceled: boolean;
+
   @Prop({ required: true })
   startDate: Date;
 }
