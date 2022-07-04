@@ -127,8 +127,13 @@ export class AppointmentService {
 
     if (!appointment) throw new NotFoundException('Appointment not found');
 
-    if (appointment.user.toHexString() !== userId.toHexString())
+    if (appointment.user.toString() !== userId.toString())
       throw new NotFoundException('You are not the owner of this appointment');
+
+    if (moment(appointment.startDate).subtract(1, 'hour').isBefore(moment()))
+      throw new ConflictException(
+        'Past appointments cannot be canceled and you cannot cancel an appointment if there is less than an hour before the appointment time.',
+      );
 
     if (appointment.isCanceled)
       throw new ConflictException('Appointment is already canceled');
@@ -137,5 +142,17 @@ export class AppointmentService {
       { _id: appointmentId },
       { isCanceled: true },
     );
+  }
+  async findOneWithAuth(appointmentId: Types.ObjectId, userId: Types.ObjectId) {
+    const appointment = await this.appointmentRepository.findOne({
+      _id: appointmentId,
+    });
+
+    if (!appointment) throw new NotFoundException('Appointment not found');
+
+    if (appointment.user._id.toHexString() !== userId.toHexString())
+      throw new NotFoundException('You are not the owner of this appointment');
+
+    return appointment;
   }
 }

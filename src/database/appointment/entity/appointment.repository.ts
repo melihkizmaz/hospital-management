@@ -27,6 +27,9 @@ export class AppointmentRepository {
     const [data, totalCount] = await Promise.all([
       this.appointmentRepository
         .find(filterQuery)
+        .populate('user', '-password')
+        .populate('doctor')
+        .populate('policlinic')
         .limit(limit)
         .skip(offset)
         .exec(),
