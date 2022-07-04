@@ -55,6 +55,8 @@ export class AppointmentService {
     const hasAppointment = await this.appointmentRepository.findOne({
       policlinic: new Types.ObjectId(createAppointmentDto.policlinic),
       user: userId,
+      isCanceled: false,
+      startDate: { $gte: moment().toDate() },
     });
 
     if (
@@ -68,6 +70,8 @@ export class AppointmentService {
 
     const myAppointments = await this.appointmentRepository.find({
       user: userId,
+      isCanceled: false,
+      startDate: { $gte: moment().toDate() },
     });
 
     const checkConflictAppointmentsDate = myAppointments.data.some(
@@ -89,6 +93,8 @@ export class AppointmentService {
 
     const appointmentsDoc = await this.appointmentRepository.find({
       doctor: new Types.ObjectId(doctor._id),
+      isCanceled: false,
+      startDate: { $gte: moment().toDate() },
     });
 
     const hasAppointmentDoc = appointmentsDoc.data.some((appointment) => {
