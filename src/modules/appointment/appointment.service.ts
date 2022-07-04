@@ -117,4 +117,25 @@ export class AppointmentService {
       startDate: date.toDate(),
     });
   }
+  async cancelAppointment(
+    appointmentId: Types.ObjectId,
+    userId: Types.ObjectId,
+  ) {
+    const appointment = await this.appointmentRepository.findOne({
+      _id: appointmentId,
+    });
+
+    if (!appointment) throw new NotFoundException('Appointment not found');
+
+    if (appointment.user.toHexString() !== userId.toHexString())
+      throw new NotFoundException('You are not the owner of this appointment');
+
+    if (appointment.isCanceled)
+      throw new ConflictException('Appointment is already canceled');
+
+    return await this.appointmentRepository.update(
+      { _id: appointmentId },
+      { isCanceled: true },
+    );
+  }
 }
