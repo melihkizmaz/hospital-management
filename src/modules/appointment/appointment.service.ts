@@ -122,7 +122,7 @@ export class AppointmentService {
       startDate: date.toDate(),
     });
 
-    await this.mailService.sendMail(
+    this.mailService.sendMail(
       user.email,
       'Appointment Status',
       'Your appointment has been created',
@@ -152,13 +152,16 @@ export class AppointmentService {
       { _id: appointmentId },
       { isCanceled: true },
     );
-    await this.mailService.sendMail(
+
+    this.mailService.sendMail(
       user.email,
       'Appointment Status',
       'Your appointment has been canceled',
     );
+
     return canceledAppointment;
   }
+
   async findOneWithAuth(appointmentId: Types.ObjectId, userId: Types.ObjectId) {
     const appointment = await this.appointmentRepository.findOne({
       _id: appointmentId,
