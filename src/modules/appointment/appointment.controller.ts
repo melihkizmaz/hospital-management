@@ -34,7 +34,7 @@ export class AppointmentController {
     @Body() createAppointment: CreateAppointmentDto,
   ) {
     return await this.appointmentService.createAppointment(
-      user._id,
+      user,
       createAppointment,
     );
   }
@@ -44,7 +44,7 @@ export class AppointmentController {
   async cancel(@CurrentUser() user: ICurrentUser, @Param('id') id: string) {
     return await this.appointmentService.cancelAppointment(
       new Types.ObjectId(id),
-      user._id,
+      user,
     );
   }
 
