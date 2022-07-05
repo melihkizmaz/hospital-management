@@ -7,6 +7,8 @@ import * as moment from 'moment';
 import { Types } from 'mongoose';
 import { AppointmentRepository } from 'src/database/appointment/entity/appointment.repository';
 import { DoctorRepository } from 'src/database/doctor/entity/doctor.repository';
+import { MailService } from 'src/mail/mail.service';
+import { ICurrentUser } from '../auth/dto/current-user.interface';
 import { CreateAppointmentDto } from './dto/create-appointment.dto';
 
 @Injectable()
@@ -14,10 +16,11 @@ export class AppointmentService {
   constructor(
     private readonly appointmentRepository: AppointmentRepository,
     private readonly doctorRepository: DoctorRepository,
+    private readonly mailService: MailService,
   ) {}
 
   async createAppointment(
-    userId: Types.ObjectId,
+    user: ICurrentUser,
     createAppointmentDto: CreateAppointmentDto,
   ) {
     const date = moment(createAppointmentDto.startDate);
@@ -54,7 +57,7 @@ export class AppointmentService {
 
     const hasAppointment = await this.appointmentRepository.findOne({
       policlinic: new Types.ObjectId(createAppointmentDto.policlinic),
-      user: userId,
+      user: user._id,
       isCanceled: false,
       startDate: { $gte: moment().toDate() },
     });
@@ -69,7 +72,7 @@ export class AppointmentService {
       );
 
     const myAppointments = await this.appointmentRepository.find({
-      user: userId,
+      user: user._id,
       isCanceled: false,
       startDate: { $gte: moment().toDate() },
     });
@@ -112,24 +115,29 @@ export class AppointmentService {
     if (hasDoctorAppointments)
       throw new ConflictException('Doctor has an appointment in this date');
 
-    return await this.appointmentRepository.create({
+    const createdAppointment = await this.appointmentRepository.create({
       doctor: new Types.ObjectId(createAppointmentDto.doctor),
       policlinic: new Types.ObjectId(createAppointmentDto.policlinic),
-      user: userId,
+      user: user._id,
       startDate: date.toDate(),
     });
+
+    await this.mailService.sendMail(
+      user.email,
+      'Appointment Status',
+      'Your appointment has been created',
+    );
+
+    return createdAppointment;
   }
-  async cancelAppointment(
-    appointmentId: Types.ObjectId,
-    userId: Types.ObjectId,
-  ) {
+  async cancelAppointment(appointmentId: Types.ObjectId, user: ICurrentUser) {
     const appointment = await this.appointmentRepository.findOne({
       _id: appointmentId,
     });
 
     if (!appointment) throw new NotFoundException('Appointment not found');
 
-    if (appointment.user.toString() !== userId.toString())
+    if (appointment.user.toString() !== user._id.toString())
       throw new NotFoundException('You are not the owner of this appointment');
 
     if (moment(appointment.startDate).subtract(1, 'hour').isBefore(moment()))
@@ -140,10 +148,16 @@ export class AppointmentService {
     if (appointment.isCanceled)
       throw new ConflictException('Appointment is already canceled');
 
-    return await this.appointmentRepository.update(
+    const canceledAppointment = await this.appointmentRepository.update(
       { _id: appointmentId },
       { isCanceled: true },
     );
+    await this.mailService.sendMail(
+      user.email,
+      'Appointment Status',
+      'Your appointment has been canceled',
+    );
+    return canceledAppointment;
   }
   async findOneWithAuth(appointmentId: Types.ObjectId, userId: Types.ObjectId) {
     const appointment = await this.appointmentRepository.findOne({
