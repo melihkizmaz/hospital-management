@@ -1,15 +1,22 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class MailService {
-  constructor(private readonly mailService: MailerService) {}
+  private mailFrom: string;
+  constructor(
+    private readonly mailService: MailerService,
+    private readonly configService: ConfigService,
+  ) {
+    this.mailFrom = configService.get('mail.auth.user');
+  }
 
   async sendMail(to: string, subject: string, text: string) {
     try {
       await this.mailService.sendMail({
         to,
-        from: 'hospitalmanagementmailer@gmail.com',
+        from: this.mailFrom,
         subject,
         text,
       });
