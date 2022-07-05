@@ -19,7 +19,7 @@ You can fork postman [<ins>collection</ins>](https://www.postman.com/interstella
 You can take a look at the postman documentation [<ins>here</ins>](https://documenter.getpostman.com/view/18029963/UzJHRdXw#e33e3aca-ac84-4464-a93a-7a51883a309f).
 
 When you import the postman collection and the environment, the **_Tests script_** is saves the bearer token to the environment if loggin was succesfull.
-You can see example image below.
+You can see **_Tests script_** image below.
 
 <p align="center">
  <img src="./assets/login-test.png" alt="Create Appointment Flow" />
