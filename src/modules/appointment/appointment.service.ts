@@ -49,7 +49,7 @@ export class AppointmentService {
       })
     )
       throw new NotFoundException(
-        'Doctor does not work in this date or this policlinic',
+        'Doctor is not working at this policlinic on this date',
       );
 
     const hasAppointment = await this.appointmentRepository.findOne({
@@ -65,7 +65,7 @@ export class AppointmentService {
         moment(date.toDate()).format('YYYY-MM-DD')
     )
       throw new ConflictException(
-        'You already have an appointment in date and policlinic',
+        'You already have an appointment at this clinic on this date',
       );
 
     const myAppointments = await this.appointmentRepository.find({
@@ -76,38 +76,40 @@ export class AppointmentService {
 
     const checkConflictAppointmentsDate = myAppointments.data.some(
       (appointment) => {
-        const alreadyHaveDate = moment(appointment.startDate);
+        const existDate = moment(appointment.startDate);
         const newDate = moment(createAppointmentDto.startDate);
 
         return (
-          alreadyHaveDate.hour() === newDate.hour() &&
-          alreadyHaveDate.minute() === newDate.minute() &&
-          alreadyHaveDate.format('YYYY-MM-DD') === newDate.format('YYYY-MM-DD')
+          existDate.hour() === newDate.hour() &&
+          existDate.minute() === newDate.minute() &&
+          existDate.format('YYYY-MM-DD') === newDate.format('YYYY-MM-DD')
         );
       },
     );
     if (checkConflictAppointmentsDate)
       throw new ConflictException(
-        'You can just take one appointment same time',
+        'You can just take one appointment at the same time',
       );
 
-    const appointmentsDoc = await this.appointmentRepository.find({
+    const doctorAppointments = await this.appointmentRepository.find({
       doctor: new Types.ObjectId(doctor._id),
       isCanceled: false,
       startDate: { $gte: moment().toDate() },
     });
 
-    const hasAppointmentDoc = appointmentsDoc.data.some((appointment) => {
-      const alreadyHaveDate = moment(appointment.startDate);
-      const newDate = moment(createAppointmentDto.startDate);
+    const hasDoctorAppointments = doctorAppointments.data.some(
+      (appointment) => {
+        const existDate = moment(appointment.startDate);
+        const newDate = moment(createAppointmentDto.startDate);
 
-      return (
-        alreadyHaveDate.format('YYYY-MM-DD') === newDate.format('YYYY-MM-DD') &&
-        alreadyHaveDate.hour() === newDate.hour() &&
-        alreadyHaveDate.minute() === newDate.minute()
-      );
-    });
-    if (hasAppointmentDoc)
+        return (
+          existDate.format('YYYY-MM-DD') === newDate.format('YYYY-MM-DD') &&
+          existDate.hour() === newDate.hour() &&
+          existDate.minute() === newDate.minute()
+        );
+      },
+    );
+    if (hasDoctorAppointments)
       throw new ConflictException('Doctor has an appointment in this date');
 
     return await this.appointmentRepository.create({
