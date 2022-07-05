@@ -32,6 +32,7 @@ export class DoctorRepository {
       totalCount,
     };
   }
+
   async update(query: FilterQuery<Doctor>, update: Partial<Doctor>) {
     const updatedDoctor = await this.doctorRepository
       .findOneAndUpdate(query, update, {
