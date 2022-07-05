@@ -34,7 +34,7 @@ export class AuthService {
     const user = await this.userRepository.findOne({
       email: loginUserDto.email,
     });
-    if (!user && user.valiadatePassword)
+    if (!user)
       throw new UnauthorizedException('Password or email is incorrect');
 
     const isPasswordValid = await user.valiadatePassword(loginUserDto.password);

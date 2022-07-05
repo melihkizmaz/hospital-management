@@ -6,6 +6,12 @@ export interface Config {
   database: MongooseModuleOptions;
   jwtSecret: string;
   jwtSignOptions: JwtSignOptions;
+  mail: {
+    auth: {
+      user: string;
+      pass: string;
+    };
+  };
 }
 
 const config = (): Config => ({
@@ -17,6 +23,12 @@ const config = (): Config => ({
   jwtSignOptions: {
     expiresIn: process.env.JWT_EXPIRES_IN,
     algorithm: 'HS256',
+  },
+  mail: {
+    auth: {
+      user: process.env.MAIL_USER,
+      pass: process.env.MAIL_PASS,
+    },
   },
 });
 export default config;

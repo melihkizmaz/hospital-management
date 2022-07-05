@@ -11,7 +11,7 @@ import { HttpAdapterHost } from '@nestjs/core';
 export class AllExceptionsFilter implements ExceptionFilter {
   constructor(private readonly httpAdapterHost: HttpAdapterHost) {}
 
-  catch(exception: Error, host: ArgumentsHost): void {
+  catch(exception: any, host: ArgumentsHost): void {
     const { httpAdapter } = this.httpAdapterHost;
 
     const ctx = host.switchToHttp();
@@ -29,6 +29,10 @@ export class AllExceptionsFilter implements ExceptionFilter {
       method: request.method,
       timestamp: new Date().toISOString(),
     };
+
+    if (exception.constructor.name === 'BadRequestException') {
+      responseBody.message = exception.response.message;
+    }
 
     httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);
   }
