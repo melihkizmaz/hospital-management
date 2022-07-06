@@ -5,9 +5,9 @@ import {
 } from '@nestjs/common';
 import * as moment from 'moment';
 import { Types } from 'mongoose';
-import { AppointmentRepository } from 'src/database/appointment/entity/appointment.repository';
-import { DoctorRepository } from 'src/database/doctor/entity/doctor.repository';
-import { MailService } from 'src/mail/mail.service';
+import { AppointmentRepository } from '../../database/appointment/entity/appointment.repository';
+import { DoctorRepository } from '../../database/doctor/entity/doctor.repository';
+import { MailService } from '../../mail/mail.service';
 import { ICurrentUser } from '../auth/dto/current-user.interface';
 import { CreateAppointmentDto } from './dto/create-appointment.dto';
 
@@ -26,7 +26,6 @@ export class AppointmentService {
     const date = moment(createAppointmentDto.startDate);
     const hour = date.hours();
     const weekDay = date.isoWeekday();
-
     if (date.isBefore(moment()))
       throw new NotFoundException('Past date is not allowed');
 
@@ -47,7 +46,7 @@ export class AppointmentService {
         return (
           moment(schedule.date).format('YYYY-MM-DD') ===
             moment(date.toDate()).format('YYYY-MM-DD') &&
-          schedule.policlinic.toHexString() === createAppointmentDto.policlinic
+          schedule.policlinic.toString() === createAppointmentDto.policlinic
         );
       })
     )
@@ -81,7 +80,6 @@ export class AppointmentService {
       (appointment) => {
         const existDate = moment(appointment.startDate);
         const newDate = moment(createAppointmentDto.startDate);
-
         return (
           existDate.hour() === newDate.hour() &&
           existDate.minute() === newDate.minute() &&
@@ -89,10 +87,11 @@ export class AppointmentService {
         );
       },
     );
-    if (checkConflictAppointmentsDate)
+    if (checkConflictAppointmentsDate) {
       throw new ConflictException(
         'You can just take one appointment at the same time',
       );
+    }
 
     const doctorAppointments = await this.appointmentRepository.find({
       doctor: new Types.ObjectId(doctor._id),
@@ -147,7 +146,6 @@ export class AppointmentService {
 
     if (appointment.isCanceled)
       throw new ConflictException('Appointment is already canceled');
-
     const canceledAppointment = await this.appointmentRepository.update(
       { _id: appointmentId },
       { isCanceled: true },
@@ -169,7 +167,7 @@ export class AppointmentService {
 
     if (!appointment) throw new NotFoundException('Appointment not found');
 
-    if (appointment.user._id.toHexString() !== userId.toHexString())
+    if (appointment.user._id.toString() !== userId.toString())
       throw new NotFoundException('You are not the owner of this appointment');
 
     return appointment;
