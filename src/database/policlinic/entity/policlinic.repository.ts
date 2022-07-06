@@ -34,6 +34,7 @@ export class PoliclinicRepository {
       totalCount,
     };
   }
+
   async update(query: FilterQuery<Policlinic>, update: Partial<Policlinic>) {
     return await this.policlinicRepository
       .findOneAndUpdate(query, update, {

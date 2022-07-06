@@ -20,6 +20,7 @@ export class AuthService {
     const user = await this.userRepository.findOne({
       email: createUserDto.email,
     });
+
     if (user) throw new ConflictException('Email already taken');
 
     const createdUser = await this.userRepository.create(createUserDto);
@@ -27,6 +28,7 @@ export class AuthService {
       id: createdUser.id,
       email: createdUser.email,
     });
+
     return token;
   }
 
@@ -34,10 +36,12 @@ export class AuthService {
     const user = await this.userRepository.findOne({
       email: loginUserDto.email,
     });
+
     if (!user)
       throw new UnauthorizedException('Password or email is incorrect');
 
     const isPasswordValid = await user.valiadatePassword(loginUserDto.password);
+
     if (!isPasswordValid)
       throw new UnauthorizedException('Password or email is incorrect');
 
@@ -45,6 +49,7 @@ export class AuthService {
       id: user.id,
       email: user.email,
     });
+
     return token;
   }
 

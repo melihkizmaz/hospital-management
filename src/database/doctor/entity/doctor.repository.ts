@@ -18,6 +18,7 @@ export class DoctorRepository {
   async findOne(query: FilterQuery<Doctor>) {
     const foundDoctor = await this.doctorRepository.findOne(query).exec();
     if (!foundDoctor) throw new NotFoundException('Doctor not found!');
+
     return foundDoctor;
   }
 
@@ -39,7 +40,9 @@ export class DoctorRepository {
         new: true,
       })
       .exec();
+
     if (!updatedDoctor) throw new NotFoundException('Doctor not found!');
+
     return updatedDoctor;
   }
 

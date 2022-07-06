@@ -80,6 +80,7 @@ export class AppointmentService {
       (appointment) => {
         const existDate = moment(appointment.startDate);
         const newDate = moment(createAppointmentDto.startDate);
+
         return (
           existDate.hour() === newDate.hour() &&
           existDate.minute() === newDate.minute() &&

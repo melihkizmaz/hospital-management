@@ -15,9 +15,9 @@
 
 ## Postman Files
 
-You can fork postman [<ins>collection</ins>](https://www.postman.com/interstellar-satellite-731506/workspace/melih-kzmaz-public-workspace/collection/18029963-911fd454-a6ed-42fe-a17b-ff924c308ca4?action=share&creator=18029963) and [<ins>environment</ins>](https://www.postman.com/interstellar-satellite-731506/workspace/melih-kzmaz-public-workspace/environment/18029963-1e1ad911-8b4f-4264-a64c-22a587b285c7).
+You can fork postman [<ins>collection</ins>](https://www.postman.com/interstellar-satellite-731506/workspace/melih-kzmaz-public-workspace/collection/18029963-c11c1631-10d7-403e-ac38-14116eee0c36?action=share&creator=18029963) and [<ins>environment</ins>](https://www.postman.com/interstellar-satellite-731506/workspace/melih-kzmaz-public-workspace/environment/18029963-1e1ad911-8b4f-4264-a64c-22a587b285c7).
 
-You can take a look at the postman documentation [<ins>here</ins>](https://documenter.getpostman.com/view/18029963/UzJJud3d).
+You can take a look at the postman documentation [<ins>here</ins>](https://documenter.getpostman.com/view/18029963/UzJJuxDn).
 
 When you import the postman collection and the environment, the **_Tests script_** is saves the bearer token to the environment if loggin was succesfull.
 You can see **_Tests script_** image below.

@@ -124,6 +124,7 @@ describe('AppointmentService', () => {
       } catch (error) {
         errorMessage = error.message;
       }
+
       expect(errorMessage).toBe('Past date is not allowed');
     });
 
@@ -138,6 +139,7 @@ describe('AppointmentService', () => {
       } catch (error) {
         errorMessage = error.message;
       }
+
       expect(errorMessage).toBe('Out of working hours');
     });
 
@@ -152,6 +154,7 @@ describe('AppointmentService', () => {
       } catch (error) {
         errorMessage = error.message;
       }
+
       expect(errorMessage).toBe('Out of working hours');
     });
 
@@ -166,6 +169,7 @@ describe('AppointmentService', () => {
       } catch (error) {
         errorMessage = error.message;
       }
+
       expect(errorMessage).toBe('Only full and half hours are allowed');
     });
 
@@ -179,8 +183,9 @@ describe('AppointmentService', () => {
         );
       } catch (error) {
         errorMessage = error.message;
-        expect(errorMessage).toBe('Doctor not found');
       }
+
+      expect(errorMessage).toBe('Doctor not found');
     });
 
     it('should throw "Doctor is not working at this policlinic on this date" error message when is a date that is not on the doctors policlinic schedule', async () => {
@@ -194,6 +199,7 @@ describe('AppointmentService', () => {
       } catch (error) {
         errorMessage = error.message;
       }
+
       expect(errorMessage).toBe(
         'Doctor is not working at this policlinic on this date',
       );
@@ -210,6 +216,7 @@ describe('AppointmentService', () => {
       } catch (error) {
         errorMessage = error.message;
       }
+
       expect(errorMessage).toBe(
         'Doctor is not working at this policlinic on this date',
       );
@@ -226,6 +233,7 @@ describe('AppointmentService', () => {
       } catch (error) {
         errorMessage = error.message;
       }
+
       expect(errorMessage).toBe(
         'You already have an appointment at this clinic on this date',
       );
@@ -242,6 +250,7 @@ describe('AppointmentService', () => {
       } catch (error) {
         errorMessage = error.message;
       }
+
       expect(errorMessage).toBe(
         'You can just take one appointment at the same time',
       );
@@ -259,6 +268,7 @@ describe('AppointmentService', () => {
       } catch (error) {
         errorMessage = error.message;
       }
+
       expect(errorMessage).toBe('Doctor has an appointment in this date');
     });
   });
@@ -275,6 +285,7 @@ describe('AppointmentService', () => {
       } catch (error) {
         errorMessage = error.message;
       }
+
       expect(errorMessage).toBe('Appointment not found');
     });
 
@@ -290,6 +301,7 @@ describe('AppointmentService', () => {
       } catch (error) {
         errorMessage = error.message;
       }
+
       expect(errorMessage).toBe('You are not the owner of this appointment');
     });
 
@@ -307,6 +319,7 @@ describe('AppointmentService', () => {
       } catch (error) {
         errorMessage = error.message;
       }
+
       expect(errorMessage).toBe(
         'Past appointments cannot be canceled and you cannot cancel an appointment if there is less than an hour before the appointment time.',
       );
@@ -324,6 +337,7 @@ describe('AppointmentService', () => {
       } catch (error) {
         errorMessage = error.message;
       }
+
       expect(errorMessage).toBe('Appointment is already canceled');
     });
   });
@@ -340,6 +354,7 @@ describe('AppointmentService', () => {
       } catch (error) {
         errorMessage = error.message;
       }
+
       expect(errorMessage).toBe('Appointment not found');
     });
 
@@ -355,6 +370,7 @@ describe('AppointmentService', () => {
       } catch (error) {
         errorMessage = error.message;
       }
+
       expect(errorMessage).toBe('You are not the owner of this appointment');
     });
   });
