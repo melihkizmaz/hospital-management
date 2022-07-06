@@ -16,6 +16,25 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
-  }
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@src/*": ["./src/*"],
+      "@core/*": ["./src/core/*"],
+      "@interceptors/*": ["./src/core/interceptors/*"],
+      "@pipes/*": ["./src/core/pipes/*"],
+      "@config/*": ["./src/config/*"],
+      "@api/*": ["./src/api/*"],
+      "@database/*": ["./src/database/*"],
+      "@security/*": ["./src/security/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@mocks/*": ["./test/mocks/*"]
+    }
+  },
+  "include": ["src", "test", "@types"],
+  "exclude": [
+    "node_modules",
+    "./node_modules",
+    "./node_modules/*",
+    "./node_modules/@types/node/index.d.ts"
+  ]
 }
