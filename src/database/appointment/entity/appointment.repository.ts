@@ -41,6 +41,7 @@ export class AppointmentRepository {
       totalCount,
     };
   }
+
   async update(query: FilterQuery<Appointment>, update: Partial<Appointment>) {
     const updatedAppointment = await this.appointmentRepository
       .findOneAndUpdate(query, update, {

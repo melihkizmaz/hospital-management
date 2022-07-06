@@ -1,6 +1,8 @@
 import {
+  BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -33,6 +35,7 @@ export class PoliclinicController {
         title: { $regex: `.*${searchQuery}.*`, $options: 'i' },
       };
     }
+
     return await this.policlinicRepository.find(query, limit, offset);
   }
 
@@ -45,6 +48,14 @@ export class PoliclinicController {
       { _id: new Types.ObjectId(id) },
       policlinicDto,
     );
+  }
+  @Delete(':id/delete')
+  async delete(@Param('id') id: string) {
+    if (id && !Types.ObjectId.isValid(id)) {
+      throw new BadRequestException('Invalid doctor id!');
+    }
+
+    return await this.policlinicRepository.delete(new Types.ObjectId(id));
   }
 
   @Get(':id')

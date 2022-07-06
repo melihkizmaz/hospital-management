@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -35,6 +36,7 @@ export class DoctorController {
     if (id && !Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid doctor id!');
     }
+
     return await this.doctorScheduleService.createPoliclinicSchedule(
       id,
       createScheduleDto.date,
@@ -54,6 +56,7 @@ export class DoctorController {
         fullName: { $regex: `.*${searchQuery}.*`, $options: 'i' },
       };
     }
+
     return await this.doctorRepository.find(query, limit, offset);
   }
 
@@ -65,10 +68,20 @@ export class DoctorController {
     if (id && !Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid doctor id!');
     }
+
     return await this.doctorRepository.update(
       { _id: new Types.ObjectId(id) },
       policlinicDto,
     );
+  }
+
+  @Delete(':id/delete')
+  async delete(@Param('id') id: string) {
+    if (id && !Types.ObjectId.isValid(id)) {
+      throw new BadRequestException('Invalid doctor id!');
+    }
+
+    return await this.doctorRepository.delete(new Types.ObjectId(id));
   }
 
   @Get(':id')

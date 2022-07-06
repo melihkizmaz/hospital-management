@@ -68,6 +68,7 @@ describe('AuthService', () => {
       } catch (error) {
         errorMessage = error.message;
       }
+
       expect(errorMessage).toBe('Email already taken');
     });
   });
@@ -81,6 +82,7 @@ describe('AuthService', () => {
       } catch (error) {
         errorMessage = error.message;
       }
+
       expect(errorMessage).toBe('Password or email is incorrect');
     });
 
@@ -93,6 +95,7 @@ describe('AuthService', () => {
       } catch (error) {
         errorMessage = error.message;
       }
+
       expect(errorMessage).toBe('Password or email is incorrect');
     });
   });

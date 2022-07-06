@@ -23,6 +23,7 @@ export class DoctorScheduleService {
     const policlinic = await this.policlinicRepository.findOne({
       _id: policlinicId,
     });
+
     if (!policlinic) throw new NotFoundException('Policlinic not found!');
 
     const formattedDate = moment(date).toDate();

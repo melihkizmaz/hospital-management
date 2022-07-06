@@ -91,6 +91,7 @@ describe('DoctorScheduleService', () => {
       } catch (error) {
         errorMessage = error.message;
       }
+
       expect(errorMessage).toBe('Doctor not found!');
     });
 
@@ -106,6 +107,7 @@ describe('DoctorScheduleService', () => {
       } catch (error) {
         errorMessage = error.message;
       }
+
       expect(errorMessage).toBe('Policlinic not found!');
     });
 
@@ -125,6 +127,7 @@ describe('DoctorScheduleService', () => {
       } catch (error) {
         errorMessage = error.message;
       }
+
       expect(errorMessage).toBe('Doctor is not available!');
     });
   });

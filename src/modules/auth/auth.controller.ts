@@ -12,12 +12,14 @@ export class AuthController {
     @Body() createUserDto: CreateUserDto,
   ): Promise<{ token: string }> {
     const token = await this.authService.register(createUserDto);
+
     return { token };
   }
 
   @Post('login')
   async login(@Body() loginUserDto: LoginUserDto): Promise<{ token: string }> {
     const token = await this.authService.login(loginUserDto);
+
     return { token };
   }
 }
