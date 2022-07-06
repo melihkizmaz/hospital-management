@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Types } from 'mongoose';
-import { DoctorRepository } from 'src/database/doctor/entity/doctor.repository';
+import { DoctorRepository } from '../../database/doctor/entity/doctor.repository';
 import * as moment from 'moment';
-import { Doctor } from 'src/database/doctor/entity/doctor.entity';
-import { PoliclinicRepository } from '@src/database/policlinic/entity/policlinic.repository';
+import { Doctor } from '../../database/doctor/entity/doctor.entity';
+import { PoliclinicRepository } from '../../database/policlinic/entity/policlinic.repository';
 
 @Injectable()
 export class DoctorScheduleService {
@@ -42,7 +42,7 @@ export class DoctorScheduleService {
     return this.doctorRepository.update({ _id: doctor._id }, doctor);
   }
 
-  async isDoctorAvailable(
+  private async isDoctorAvailable(
     date: Date,
     doctorId: Types.ObjectId,
   ): Promise<boolean> {
