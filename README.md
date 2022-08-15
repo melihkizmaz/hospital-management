@@ -7,7 +7,6 @@
 ## Tech Stack
 
 - NestJS
-  - Deployed on [<ins>railway</ins>](https://hospital-management.up.railway.app/).
 - MongoDB
   - Deployed on Atlas.
 - Jest
